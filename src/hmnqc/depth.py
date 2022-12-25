@@ -1,10 +1,6 @@
 import logging
-import os
-import sys
-from io import StringIO
 
 import pandas as pd
-import pysam
 from skgenome import tabio
 
 from hmnqc import wrapper_depth

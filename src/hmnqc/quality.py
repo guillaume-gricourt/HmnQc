@@ -1,14 +1,8 @@
 import gzip
 import json
-import logging
-import os
 import re
-import sys
-from collections import namedtuple
 from io import StringIO
-from multiprocessing import Pool
 
-import numpy as np
 import pandas as pd
 import pysam
 from Bio import SeqIO
@@ -16,9 +10,6 @@ from Bio import SeqIO
 from hmnqc.utils import calculate_percentile
 
 
-##########################################
-##        Classes         ##
-##########################################
 class Region:
     def __init__(self, contig, start, stop, gene="", exon=""):
         self.contig = contig
@@ -54,9 +45,6 @@ class Region:
         return "%s:%s-%s" % (self.contig, self.start, self.stop)
 
 
-##################
-##    FASTQ    ##
-##################
 def _calculate_stat_per_position(tab):
     baseQual = {}
     # List to dict
@@ -135,7 +123,7 @@ def fastq(origine, filename, threads=1):
             tile_name = splitID[4]
         elif len(splitID) >= 5:
             tile_name = splitID[2]
-        if tile_name and not tile_name in tiles.keys():
+        if tile_name and tile_name not in tiles.keys():
             tiles[tile_name] = {}
 
         # Keep data
@@ -180,9 +168,6 @@ def fastq(origine, filename, threads=1):
     return (origine, statistics)
 
 
-##################
-##    BED    ##
-##################
 def open_bed(filename):
     regions = []
     with open(filename) as fid:
@@ -201,9 +186,6 @@ def open_bed(filename):
     return regions
 
 
-##################
-##    BAM    ##
-##################
 def _open_bam_file(filename, read):
     # Load bam file
     bam = pysam.AlignmentFile(filename, read)
@@ -365,9 +347,6 @@ def coverage(file_bam_mode, regions, cut_offs):
     return coverage
 
 
-##################
-##    VCF    ##
-##################
 def vcf(filename):
     vcf = pysam.VariantFile(filename)
 
@@ -414,9 +393,6 @@ def vcf(filename):
     return statistics
 
 
-##################
-##    OUTPUT    ##
-##################
 def write(foutput, data):
     """
     Format output

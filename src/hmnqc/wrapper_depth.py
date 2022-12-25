@@ -1,6 +1,4 @@
 import logging
-import os
-import sys
 from io import StringIO
 
 import pandas as pd
@@ -47,7 +45,7 @@ class WrapperDepth:
         self._contig = ""
         self._start = 0
         self._end = 0
-        sel._matrix = pd.DataFrame(columns=self.COLS)
+        self._matrix = pd.DataFrame(columns=self.COLS)
 
     def depth(self, select={}):
         base_quality_threshold = select.get("base_quality_threshold", 0)

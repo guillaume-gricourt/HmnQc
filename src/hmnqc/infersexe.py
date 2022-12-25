@@ -1,20 +1,13 @@
 import logging
 import os
 import re
-import sys
 
 import cnvlib
-import numpy as np
 import pandas as pd
 
 from hmnqc.utils import isNaN
 
-##################
-##    VAR    ##
-##################
-
 REGEXPS = {"name": [r"^([-_\w]+_S\d+).*"], "check": r".*[-_]([MF])_S\d+.*"}
-
 LABELS = {
     "f": {"name": "Femme", "color": "#d7bde2"},
     "m": {"name": "Homme", "color": "#a9cce3"},
@@ -24,9 +17,6 @@ RESULTS = {
     "good": {"name": "ok", "color": "#a9dfbf"},
     "bad": {"name": "erreur", "color": "#f5b7b1"},
 }
-##########################
-##    FUNCTION    ##
-##########################
 
 
 def _translate_sexe(isXX):
@@ -54,11 +44,6 @@ def _guess_name(filename):
     return name
 
 
-##########################
-##    Analysis    ##
-##########################
-
-
 def analysis(finputs, fbed, threads=1):
     logging.info(
         "Start Analysis with samples : %s and bed file : %s"
@@ -67,7 +52,6 @@ def analysis(finputs, fbed, threads=1):
     # First round
     COLS = ["sample", "chr autosome", "chr x", "chr y", "sexe"]
     df = pd.DataFrame(columns=COLS, index=[x for x in range(len(finputs))])
-    count = True
     min_mapq = 0
 
     for ix, finput in enumerate(finputs):
@@ -111,14 +95,10 @@ def verification(df):
     return df
 
 
-############
-## Output ##
-############
-
-
 def write(foutput, df, simple):
     logging.info("Write output : %s" % (foutput,))
     # From : https://stackoverflow.com/questions/32957441/putting-many-python-pandas-dataframes-to-one-excel-worksheet
+
     def color(vals):
         col = vals.name
         colors = []

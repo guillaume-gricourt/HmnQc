@@ -1,6 +1,5 @@
 import logging
 
-import numpy as np
 import pandas as pd
 import pysam
 from pysam import VariantFile
@@ -58,7 +57,7 @@ def _genotype_to_label(record, gt):
         if x[0] == 0:
             res = "Homozygote-Reference"
         else:
-            res = "Homozygote-Alternative" 
+            res = "Homozygote-Alternative"
     else:
         res = "Heterozygote"
     """
@@ -96,7 +95,6 @@ def snp(finputs, vcf_reference):
         vf = VariantFile(finput)
         names = vf.header.samples
 
-        rec_in_ref, rec_notin_ref = [], []
         references_found = []
         # Find record present in references
         for record in vf.fetch():
@@ -135,7 +133,6 @@ def vaf(finputs, vcf_reference, variant_caller):
         vf = VariantFile(finput)
         names = vf.header.samples
 
-        rec_in_ref, rec_notin_ref = [], []
         references_found = []
         # Find record present in references
         for record in vf.fetch():

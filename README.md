@@ -1,26 +1,28 @@
 # HmnQc
 
 ## Introduction
+
 A command-line toolkit to compute differents metrics about quality, check identity and coverage from high-throughput sequencing provided by targeted NGS.
 
 ## Install
+
 Installation is done with `pip`
-```bash
+
+```sh
 git clone git@github.com:guillaume-gricourt/HmnQc.git
 pip install HmnQc
 ```
 
 ## Running
-Software is available by
-```sh
-HmnQc <command> <parameters>
-```
+
+Software is available by `HmnQc <command> <parameters>`
 
 ## Quality Metrics
 
 Extract statistics to produce a JSON file
 
 Compute raw statistics from FASTQ, BAM or VCF files
+
 ```sh
 HmnQc quality \
     --name <name of the sample> \
@@ -34,8 +36,10 @@ HmnQc quality \
 
 ## Coverage Metrics
 
-## Position not covered
+### Position not covered
+
 Extract position not covered under customizable cut off
+
 ```sh
 HmnQc depthmin \
     -i <BAM file> \
@@ -44,8 +48,10 @@ HmnQc depthmin \
     -o <XLXS file>
 ```
 
-## Coverage of bed file
+### Coverage of bed file
+
 Compute statistics of coverage from a bed file
+
 ```sh
 HmnQc depthtarget \
     -i <BAM file> \
@@ -54,10 +60,12 @@ HmnQc depthtarget \
     -o <XLSX file>
 ```
 
-# Check identiy
+## Check identiy
 
-## Infer sexe of samples
+### Infer sexe of samples
+
 Infer sexe from BAM files and BED file to produce XLSX file.
+
 ```sh
 HmnQc infersexe \
     -i <BAM file> \
@@ -65,8 +73,10 @@ HmnQc infersexe \
     -o <XLSX file>
 ```
 
-## Extract SNPs
+### Extract SNPs
+
 Extract SNPs in VCF file from BAM files.
+
 ```sh
 HmnQc extractvcf \
     -i <BAM file> \
@@ -74,13 +84,13 @@ HmnQc extractvcf \
     -o <XLSX file>
 ```
 
-# Built with these main libraries
+## Built with these main libraries
 
 * [CNVkit](https://github.com/etal/cnvkit) - Powerful library
 * [pysam](https://github.com/pysam-developers/pysam) - Essential library to work with BAM and VCF files
 * [biopython](https://github.com/biopython/biopython) - Essential library to work with FASTQ files
 * [pandas](https://github.com/pandas-dev/pandas) - Essential dataframe object
 
-# Authors
+## Authors
 
 * **Guillaume Gricourt**

@@ -1,21 +1,14 @@
 import argparse
 import logging
 import os
-import re
-import shutil
-import sys
-import tempfile
 from collections import namedtuple
 from concurrent import futures
-from multiprocessing import Pool
 
-import cnvlib
-import numpy as np
 import pandas as pd
 
-from hmnqc import context, depth, extractvcf, formatvcf, infersexe, quality
-from hmnqc._version import __app_name__, __version__
-from hmnqc.utils import abort, read_json
+from hmnqc import depth, extractvcf, infersexe, quality
+from hmnqc._version import __version__
+from hmnqc.utils import abort
 
 AP = argparse.ArgumentParser(
     description="Quality information for targeted DNA analysis",
@@ -23,7 +16,7 @@ AP = argparse.ArgumentParser(
 )
 AP_subparsers = AP.add_subparsers(help="Sub-commnands (use with -h for more info)")
 
-##  QUALITY
+
 def _parallel_quality_fq(args):
     """Wrapper for parallel."""
     return list(quality.fastq(*args))
@@ -97,13 +90,9 @@ def _cmd_quality(args):
 
     # FASTQ
     logging.info("Compute FASTQ files")
-    results = []
 
     if isFastqCompute:
         data["statistics"]["fastq"] = {}
-
-        # with Pool(processes=args.threads) as pool:
-        #    results = pool.starmap(quality.fastq, [ (origine, filename) for origine, filename in data["files"]["fastq"].items()] )
 
         with futures.ProcessPoolExecutor(args.threads) as pool:
             args_iter = (
@@ -113,8 +102,6 @@ def _cmd_quality(args):
             for result in pool.map(_parallel_quality_fq, args_iter):
                 data["statistics"]["fastq"][result[0]] = result[1]
 
-        # for result in results:
-        #    data["statistics"]["fastq"][result[0]] = result[1]
         # Trimming
         if isFastqTrimmed:
             total_before = data["statistics"]["fastq"].get("forward_before", {}).get(
@@ -167,11 +154,9 @@ def _cmd_quality(args):
 
 
 P_quality = AP_subparsers.add_parser("quality", help=_cmd_quality.__doc__)
-
 P_quality.add_argument("--name", required=True, help="Name of sample")
 P_quality.add_argument("--threads", type=int, default=1, help="Threads")
 P_quality.add_argument("--output", required=True, help="Output json file")
-
 # Fastq.
 P_quality_fastq = P_quality.add_argument_group("Quality of fastq files")
 P_quality_fastq.add_argument(
@@ -186,7 +171,6 @@ P_quality_fastq.add_argument(
 P_quality_fastq.add_argument(
     "-fra", "--fastq-reverse-after", help="Fastq reverse after trimming"
 )
-
 # Bam.
 P_quality_bam = P_quality.add_argument_group("Quality of bam file")
 P_quality_bam.add_argument("--bam", help="Bam file to analyse")
@@ -194,14 +178,12 @@ P_quality_bam.add_argument("--bed", help="Bed file to compute coverage")
 P_quality_bam.add_argument(
     "--coverage-cut-off", help="Cut off coverage to compute", default="10,20,30,40"
 )
-
 # Vcf.
 P_quality_vcf = P_quality.add_argument_group("Quality of vcf file")
 P_quality_vcf.add_argument("--vcf", help="Vcf file to analyse")
-
 P_quality.set_defaults(func=_cmd_quality)
 
-## IDENTITY
+
 # Check Sexe.
 def _cmd_infer_sexe(args):
     """Create Html Report with Fastq"""
@@ -229,8 +211,8 @@ P_infer_sexe.add_argument(
     action="store_true",
     help="Mean coverage for ChrAutosome, ChrX and ChrY are shown by default",
 )
-
 P_infer_sexe.set_defaults(func=_cmd_infer_sexe)
+
 
 # Check Snps.
 def _cmd_extract_vcf(args):
@@ -263,7 +245,6 @@ P_extract_vcf.add_argument(
     "--vcf-reference", required=True, help="Vcf file with SNPs to extract"
 )
 P_extract_vcf.add_argument("-o", "--output", required=True, help="Xls output")
-
 P_extract_vaf = P_extract_vcf.add_argument_group("Extract VAF")
 P_extract_vaf.add_argument(
     "--variant-caller",
@@ -271,10 +252,9 @@ P_extract_vaf.add_argument(
     default=extractvcf.CALLERS[0],
     help="From which caller VCF samples are created",
 )
-
 P_extract_vcf.set_defaults(func=_cmd_extract_vcf)
 
-##  DEPTH
+
 # Depth Min.
 def _cmd_depth_min(args):
     logging.info("Start analysis")
@@ -288,8 +268,8 @@ P_depth_min.add_argument("-o", "--output", required=True, help="Xls output")
 P_depth_min.add_argument(
     "-c", "--cut-off", default=30, type=int, help="Minimal CutOff Depth to report"
 )
-
 P_depth_min.set_defaults(func=_cmd_depth_min)
+
 
 # Depth by target.
 def _parallel_depth_target(args):
@@ -336,47 +316,6 @@ P_depth_target.add_argument(
 )
 P_depth_target.set_defaults(func=_cmd_depth_target)
 
-## Format vcf
-def _parallel_format_vcf(args):
-    """Wrapper for parallel."""
-    return list(formatvcf.build(*args))
-
-
-def _cmd_format_vcf(args):
-    if not (len(args.input_annovar_txt) == len(args.input_gatk_vcf) == len(args.name)):
-        abort("Arguments must be same size")
-    for f in args.input_annovar_txt + args.input_gatk_vcf:
-        if not os.path.isfile(f):
-            abort("File %s is not a regular file" % (f,))
-
-    logging.info("Build recurrences")
-    recurrences = formatvcf.build_recurrence(args.input_annovar_txt)
-
-    logging.info("Start analysis")
-    dfs = []
-    with futures.ProcessPoolExecutor(args.threads) as pool:
-        args_iter = (
-            (n, g, a)
-            for n, g, a in zip(args.name, args.input_gatk_vcf, args.input_annovar_txt)
-        )
-        for x in pool.map(_parallel_format_vcf, args_iter):
-            dfs.append(x)
-
-    # Write output
-    formatvcf.write(args.outdir, dfs)
-
-
-P_format_vcf = AP_subparsers.add_parser("format-vcf", help=_cmd_format_vcf.__doc__)
-P_format_vcf.add_argument(
-    "-i", "--input-annovar-txt", nargs="+", help="Annovar tab file"
-)
-P_format_vcf.add_argument("-g", "--input-gatk-vcf", nargs="+", help="Vcf file - gatk")
-P_format_vcf.add_argument("-n", "--input-name", nargs="+", help="Name to target")
-P_format_vcf.add_argument("-o", "--outdir", required=True, help="Outdir")
-P_format_vcf.add_argument("-t", "--threads", type=int, default=1, help="Threads used")
-
-P_format_vcf.set_defaults(func=_cmd_format_vcf)
-
 
 # Version.
 def print_version(_args):
@@ -386,6 +325,7 @@ def print_version(_args):
 
 P_version = AP_subparsers.add_parser("version", help=print_version.__doc__)
 P_version.set_defaults(func=print_version)
+
 
 # Help.
 def print_help():
