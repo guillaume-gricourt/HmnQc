@@ -4,8 +4,8 @@ channels:
   - bioconda
   - defaults
 dependencies:
+  - biopython
   - cnvkit
   - pysam
-  - scikit-learn
   - xlsxwriter
   - pandas

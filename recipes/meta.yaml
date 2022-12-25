@@ -1,0 +1,46 @@
+{% set name = "hmnqc" %}
+{% set version = "0.5.0" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  path: ../
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install -vv .
+
+requirements:
+  build:
+    - pip
+    - pytest
+    - python
+    - pyyaml
+    - setuptools
+  run:
+    - biopython
+    - cnvkit
+    - pysam
+    - xlsxwriter
+    - pandas
+    - python
+    - pyyaml
+
+test:
+  imports:
+    - {{ name }}
+  commands:
+    - python -m {{ name }} --help
+
+about:
+  home: https://github.com//{{ name }}
+  summary: A command-line toolkit to compute differents metrics about quality, check identity and coverage from high-throughput sequencing provided by targeted NGS
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - guillaume-gricourt
