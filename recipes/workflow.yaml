@@ -1,0 +1,11 @@
+name: test
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - cnvkit
+  - pysam
+  - scikit-learn
+  - xlsxwriter
+  - pandas
