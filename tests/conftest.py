@@ -1,6 +1,6 @@
 import os
 from collections import namedtuple
-from typing import Dict, Tuple
+from typing import Dict
 
 import pytest
 
