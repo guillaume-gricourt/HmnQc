@@ -5,7 +5,6 @@ from collections import namedtuple
 from concurrent import futures
 
 import pandas as pd
-
 from hmnqc import depth, extractvcf, infersexe, quality
 from hmnqc._version import __version__
 from hmnqc.utils import abort
@@ -239,7 +238,7 @@ def _cmd_extract_vcf(args):
     else:
         raise ValueError("Mode is unknown")
     logging.info("Write data to : %s" % (args.output_hmnqc_xlsx,))
-    extractvcf.write(args.output_hmnqc_xlsx, df, args.paramter_mode)
+    extractvcf.write(args.output_hmnqc_xlsx, df, args.parameter_mode)
 
 
 P_extract_vcf = AP_subparsers.add_parser("extractvcf", help=_cmd_extract_vcf.__doc__)

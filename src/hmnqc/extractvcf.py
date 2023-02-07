@@ -21,6 +21,8 @@ def _vcf_record_equal(a, b):
 
 
 def _vcf_record_is_snp(x):
+    if x.ref is None or x.alts is None:
+        return None
     if len(x.ref) == 1 and len(x.alts[0]) == 1:
         return True
     return False
@@ -98,7 +100,7 @@ def snp(finputs, vcf_reference):
         references_found = []
         # Find record present in references
         for record in vf.fetch():
-            if not _vcf_record_is_snp(record):
+            if _vcf_record_is_snp(record) is None:
                 continue
             for ix, reference in enumerate(references):
                 if _vcf_record_equal(reference, record):
