@@ -25,13 +25,15 @@ Compute raw statistics from FASTQ, BAM or VCF files
 
 ```sh
 hmnqc quality \
-    --name <name of the sample> \
-    --output <Json file> \
-    --fastq-forward-before <FASTQ file> \
-    --fastq-reverse-before <FASTQ file> \
-    --bam <BAM file> \
-    --bed <BED file> \
-    --vcf <VCF file>
+    --input-sample-name <name of the sample> \
+    --output-hmnqc-json <Json file> \
+    --input-fastq-forward-raw <FASTQ file> \
+    --input-fastq-reverse-raw <FASTQ file> \
+    --input-fastq-forward-trim <FASTQ file> \
+    --input-fastq-forward-trim <FASTQ file> \
+    --input-sample-bam <BAM file> \
+    --input-sample-bed <BED file> \
+    --input-sample-vcf <VCF file>
 ```
 
 ## Coverage Metrics
@@ -42,10 +44,10 @@ Extract position not covered under customizable cut off
 
 ```sh
 hmnqc depthmin \
-    -i <BAM file> \
-    -b <BED file> \
-    --cut-off <int> \
-    -o <XLXS file>
+    --input-sample-bam <BAM file> \
+    --input-sample-bed <BED file> \
+    --parameter-cut-off <int> \
+    --output-hmnqc-xlsx <XLXS file>
 ```
 
 ### Coverage of bed file
@@ -54,11 +56,11 @@ Compute statistics of coverage from a bed file
 
 ```sh
 hmnqc depthtarget \
-    -i <BAM file> \
-    -b <BED file> \
-    -m target \
-    -o <XLSX file>
-```
+    --input-sample-bam <BAM file> \
+    --input-sample-bed <BED file> \
+    --parameter-mode target \
+    --ouput-hmnqc-xlsx <XLSX file>
+```-
 
 ## Check identiy
 
@@ -68,9 +70,9 @@ Infer sexe from BAM files and BED file to produce XLSX file.
 
 ```sh
 hmnqc infersexe \
-    -i <BAM file> \
-    -b <BED file> \
-    -o <XLSX file>
+    --input-sample-bam <BAM file> \
+    --input-sample-bed <BED file> \
+    --output-hmnqc-xlsx <XLSX file>
 ```
 
 ### Extract SNPs
@@ -79,9 +81,9 @@ Extract SNPs in VCF file from BAM files.
 
 ```sh
 hmnqc extractvcf \
-    -i <BAM file> \
-    --vcf-reference <VCF file> \
-    -o <XLSX file>
+    --input-sample-bam <BAM file> \
+    --input-reference-vcf <VCF file> \
+    --output-hmnqc-xlsx <XLSX file>
 ```
 
 ## Built with these main libraries
