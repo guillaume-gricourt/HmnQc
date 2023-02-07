@@ -212,14 +212,20 @@ def flagstat(file_bam_mode, threads=1):
 
         if "in total" == item:
             key = "reads"
+        elif "primary" == item:
+            key = "primary"
         elif "secondary" == item:
             key = "secondary"
         elif "supplementary" == item:
             key = "supp"
         elif "duplicates" == item:
             key = "dup"
+        elif "primary duplicates" == item:
+            key = "primary duplicates"
         elif "mapped" == item:
             key = "mapped"
+        elif "primary mapped" == item:
+            key = "primary mapped"
         elif "paired in sequencing" == item:
             key = "pair_all"
         elif "read1" == item:
@@ -239,7 +245,7 @@ def flagstat(file_bam_mode, threads=1):
             else:
                 key = "diffhigh"
         else:
-            raise ValueError("Error when parsing flagstat")
+            key = item
 
         data[key] = value
     return data
@@ -357,6 +363,8 @@ def vcf(filename):
         total += 1
 
         ref = variant.ref
+        if variant.alts is None:
+            continue
         alt = variant.alts[0]
 
         # Simple stat
@@ -399,7 +407,7 @@ def write(foutput, data):
 
     - files
       - fastq
-        - forward_before | forward_after | reverse_before | reverse_after : filename
+        - forward_raw | forward_trim | reverse_raw | reverse_trim : filename
       - bam : filename
       - bam_format : sam or bam
       - bed : filename
@@ -412,7 +420,7 @@ def write(foutput, data):
       - vcf : list of rules
     - statistics
       - fastq
-        - forward_before | forward_after | reverse_before | reverse_after
+        - forward_raw | forward_trim | reverse_raw | reverse_trim
           - total : int
           - length
         - minimum : int
