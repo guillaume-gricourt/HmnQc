@@ -18,7 +18,7 @@ def data_directory():
 
 
 @pytest.fixture(scope="session")
-def sample_one(data_directory) -> Tuple[str, str]:
+def sample_one(data_directory) -> "Sample":
     return Sample(
         fq_fwd_raw=os.path.join(data_directory, "one.R1.fastq"),
         fq_rev_raw=os.path.join(data_directory, "one.R2.fastq"),

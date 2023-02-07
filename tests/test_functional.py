@@ -1,17 +1,17 @@
-import filecmp
 import json
 import sys
 import tempfile
-from typing import List
+from typing import List, Optional
 
 import pandas as pd
+
 from hmnqc._version import __app_name__
 from hmnqc.utils import run
 
 
 class TestFunctional:
     @classmethod
-    def compare_json(cls, one, two, del_keys: List[str] = None) -> bool:
+    def compare_json(cls, one, two, del_keys: Optional[List[str]] = None) -> bool:
         with open(one) as fod:
             one_data = json.load(fod)
         with open(two) as fod:
@@ -100,7 +100,6 @@ class TestFunctional:
             assert TestFunctional.compare_xlsx(fd.name, one_results["infersexe"])
 
     def test_extractvcf(self, sample_one, reference_vcf, one_results):
-        out = "/save/ggricourt/opt/guillaume-gricourt/HmnQc/tests/one.extractvcf.xlsx"
         with tempfile.NamedTemporaryFile(suffix=".xlsx") as fd:
             args = [__app_name__, "extractvcf"]
             args += ["--input-sample-vcf", sample_one.vcf]
