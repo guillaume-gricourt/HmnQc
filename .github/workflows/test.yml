@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9]
+        python-version: [3.8]
     defaults:
       run:
         shell: bash -l {0}
@@ -53,7 +53,7 @@ jobs:
       - name: 'Run tests'
         run: |
           pip install --no-deps .
-          python -m pytest tests/unit
+          python -m pytest tests
 
   Coverage:
     needs: [Build]
