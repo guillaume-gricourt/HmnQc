@@ -6,6 +6,7 @@ channels:
 dependencies:
   - biopython
   - cnvkit
+  - openpyxl
   - pysam
   - xlsxwriter
   - pandas
