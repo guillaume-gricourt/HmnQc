@@ -9,3 +9,7 @@ dependencies:
   - pysam
   - xlsxwriter
   - pandas
+  # build
+  - conda-build
+  - pytest
+  - pytest-cov
