@@ -1,12 +1,12 @@
 # HmnQc
 
-## Introduction
+[![Github Version](https://img.shields.io/github/v/release/guillaume-gricourt/HmnQc?display_name=tag&sort=semver)](version)  
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)  
+[![GitHub Super-Linter](https://github.com/guillaume-gricourt/HmnQc/workflows/Tests/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
-A command-line toolkit to compute differents metrics about quality, check identity and coverage from high-throughput sequencing provided by targeted NGS.
+Compute differents metrics about quality, check identity and coverage from high-throughput sequencing provided by targeted NGS.
 
 ## Install
-
-Installation is done with `pip`
 
 ```sh
 git clone git@github.com:guillaume-gricourt/HmnQc.git
@@ -15,7 +15,7 @@ pip install HmnQc
 
 ## Running
 
-Software is available by `HmnQc <command> <parameters>`
+Software is available by `hmnqc <command> <parameters>`
 
 ## Quality Metrics
 
@@ -24,7 +24,7 @@ Extract statistics to produce a JSON file
 Compute raw statistics from FASTQ, BAM or VCF files
 
 ```sh
-HmnQc quality \
+hmnqc quality \
     --name <name of the sample> \
     --output <Json file> \
     --fastq-forward-before <FASTQ file> \
@@ -41,7 +41,7 @@ HmnQc quality \
 Extract position not covered under customizable cut off
 
 ```sh
-HmnQc depthmin \
+hmnqc depthmin \
     -i <BAM file> \
     -b <BED file> \
     --cut-off <int> \
@@ -53,7 +53,7 @@ HmnQc depthmin \
 Compute statistics of coverage from a bed file
 
 ```sh
-HmnQc depthtarget \
+hmnqc depthtarget \
     -i <BAM file> \
     -b <BED file> \
     -m target \
@@ -67,7 +67,7 @@ HmnQc depthtarget \
 Infer sexe from BAM files and BED file to produce XLSX file.
 
 ```sh
-HmnQc infersexe \
+hmnqc infersexe \
     -i <BAM file> \
     -b <BED file> \
     -o <XLSX file>
@@ -78,7 +78,7 @@ HmnQc infersexe \
 Extract SNPs in VCF file from BAM files.
 
 ```sh
-HmnQc extractvcf \
+hmnqc extractvcf \
     -i <BAM file> \
     --vcf-reference <VCF file> \
     -o <XLSX file>
@@ -90,7 +90,3 @@ HmnQc extractvcf \
 * [pysam](https://github.com/pysam-developers/pysam) - Essential library to work with BAM and VCF files
 * [biopython](https://github.com/biopython/biopython) - Essential library to work with FASTQ files
 * [pandas](https://github.com/pandas-dev/pandas) - Essential dataframe object
-
-## Authors
-
-* **Guillaume Gricourt**
