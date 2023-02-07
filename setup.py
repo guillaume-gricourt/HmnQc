@@ -4,17 +4,18 @@ import setuptools
 import yaml
 
 # Version
+name = ""
 version = ""
 fversion = glob.glob("**/_version.py", recursive=True)[0]
 with open(fversion) as fid:
     lines = fid.read().splitlines()
+    name = lines[0].split("=")[-1].strip().replace('"', "")
     version = lines[1].split("=")[-1].strip().replace('"', "")
 
 # App name - dependencies
 env = {}
 with open("recipes/workflow.yaml") as fid:
     env = yaml.safe_load(fid)
-name = env["name"]
 install_requires = []
 for package in env["dependencies"]:
     if isinstance(package, dict):
@@ -22,7 +23,7 @@ for package in env["dependencies"]:
         install_requires += package
     else:
         install_requires.append(package)
-description = "Grab different metrics from NGS files"
+description = "Extract useful metrics from NGS files"
 
 setuptools.setup(
     name=name,
@@ -41,4 +42,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=install_requires,
+    entry_points={"console_scripts": ["hmnqc=hmnqc.__main__:main"]},
 )

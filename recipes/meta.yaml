@@ -16,7 +16,6 @@ build:
 requirements:
   build:
     - pip
-    - pytest
     - python
     - pyyaml
     - setuptools
@@ -26,18 +25,17 @@ requirements:
     - pysam
     - xlsxwriter
     - pandas
-    - python
     - pyyaml
 
 test:
   imports:
     - {{ name }}
   commands:
-    - python -m {{ name }} --help
+    - {{ name }} --help
 
 about:
-  home: https://github.com//{{ name }}
-  summary: A command-line toolkit to compute differents metrics about quality, check identity and coverage from high-throughput sequencing provided by targeted NGS
+  home: https://github.com/guillaume-gricourt/HmnQc
+  summary: Compute differents metrics about quality, check identity and coverage from high-throughput sequencing provided by targeted NGS
   license: MIT
   license_file: LICENSE
 
