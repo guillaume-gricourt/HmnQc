@@ -59,7 +59,7 @@ hmnqc depthtarget \
     --input-sample-bed <BED file> \
     --parameter-mode target \
     --ouput-hmnqc-xlsx <XLSX file>
-```-
+```
 
 ## Check identiy
 
