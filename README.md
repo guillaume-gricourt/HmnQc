@@ -1,6 +1,6 @@
 # HmnQc
 
-[![Github Version](https://img.shields.io/github/v/release/guillaume-gricourt/HmnQc?display_name=tag&sort=semver)](version)  
+[![Github Version](https://img.shields.io/github/v/release/guillaume-gricourt/HmnQc?display_name=tag&sort=semver)](version) [![Conda Release](https://img.shields.io/conda/vn/bioconda/hmnqc.svg)](https://anaconda.org/bioconda/hmnqc)  
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)  
 [![GitHub Super-Linter](https://github.com/guillaume-gricourt/HmnQc/workflows/Tests/badge.svg)](https://github.com/marketplace/actions/super-linter) [![DOI](https://zenodo.org/badge/582107760.svg)](https://zenodo.org/badge/latestdoi/582107760)  
 
@@ -9,8 +9,7 @@ Compute differents metrics about quality, check identity and coverage from high-
 ## Install
 
 ```sh
-git clone git@github.com:guillaume-gricourt/HmnQc.git
-pip install HmnQc
+conda install -c bioconda hmnqc
 ```
 
 ## Running
