@@ -159,4 +159,4 @@ def vaf(finputs, vcf_reference, variant_caller):
 def write(foutput, df, mode):
     writer = pd.ExcelWriter(foutput, engine="xlsxwriter")
     df.to_excel(writer, sheet_name=mode, index=True, header=True)
-    writer.save()
+    writer.close()

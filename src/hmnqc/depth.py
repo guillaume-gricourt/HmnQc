@@ -61,7 +61,7 @@ def min(fbam, fbed, foutput, cut_off):
             row += len(df.index)
 
     logging.info("Write output : %s" % (foutput,))
-    writer.save()
+    writer.close()
 
 
 # Depth gene.
@@ -133,5 +133,4 @@ def target_write(foutput, df):
     df.columns.to_frame().transpose().to_excel(writer, sheet_name)
     # writer table body without headers
     df.to_excel(writer, sheet_name, header=False, startrow=1)
-    writer.save()
-    # writer.close()
+    writer.close()
