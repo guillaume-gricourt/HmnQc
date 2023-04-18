@@ -71,7 +71,6 @@ def target(fbam, name, regions, mode="target"):
     depth = wrapper_depth.WrapperDepth(fbam)
 
     for ix in regions.data.index:
-
         # Get data
         chrom = regions.data.loc[ix, "chromosome"]
         start = regions.data.loc[ix, "start"]
