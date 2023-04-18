@@ -27,7 +27,9 @@ jobs:
         with:
           miniconda-version: "latest"
           environment-file: recipes/workflow.yaml
-          python-version: '3.9'
+          mamba-version: "*"
+          channel-priority: true
+          use-mamba: true
       - name: 'Build conda package'
         run: |
           conda-build recipes/
@@ -51,7 +53,9 @@ jobs:
         with:
           miniconda-version: "latest"
           environment-file: recipes/workflow.yaml
-          python-version: ${{ matrix.python-version }}
+          mamba-version: "*"
+          channel-priority: true
+          use-mamba: true
       - name: 'Run tests'
         run: |
           pip install --no-deps .
