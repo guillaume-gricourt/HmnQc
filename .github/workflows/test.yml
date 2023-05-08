@@ -32,7 +32,7 @@ jobs:
           use-mamba: true
       - name: 'Build conda package'
         run: |
-          conda-build recipes/
+          conda mambabuild recipes/
 
   Pytest:
     needs: [Build]

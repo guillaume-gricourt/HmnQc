@@ -4,6 +4,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
+  - boa # build package with mamba
   - biopython
   - cnvkit
   - openpyxl
