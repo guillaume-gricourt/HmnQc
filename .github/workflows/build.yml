@@ -171,7 +171,7 @@ jobs:
       - name: 'Build conda package'
         run: |
           mkdir -p ${{ env.dirbuild }}
-          conda-build recipes --output-folder ${{ env.dirbuild }}
+          conda mambabuild recipes --output-folder ${{ env.dirbuild }}
       - name: 'Find name package'
         id: identify_asset
         run: |
